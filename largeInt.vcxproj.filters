@@ -18,21 +18,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dll.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="node.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="iterator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="largeInt.cpp">
+    <ClCompile Include="LargeInt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dll.h">
+    <ClInclude Include="doublyL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="node.h">
@@ -41,7 +32,7 @@
     <ClInclude Include="iterator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="largeInt.h">
+    <ClInclude Include="LargeInt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

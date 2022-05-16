@@ -1,33 +1,78 @@
-#include "dll.h"
+/*
+    Program: Large Int
+    Class: CSC 331H Spring 2022
+    Student: Thamires L Andrade
+    Professor: Anna Salvati
+    Description:  program handles large integers (positive and negative)
+*/
 
-template <class T> dll<T>::dll() { init(); }
+#ifndef DOUBLYL_H
+#define DOUBLYL_H
 
-template <class T> void dll<T>::init() {
+#include "node.h"
+#include "iterator.h"
+
+template<class T>
+class doublyL {
+private:
+    node<T>* head{}; // first node pointer
+    node<T>* tail{}; // last node pointer
+    int length{}; // node counter
+    bool found{}; //
+
+public:
+    doublyL(); // constructor
+    ~doublyL(); // destructor
+    void init(); // initialized member variables
+
+    doublyL(const doublyL<T>& other); // copy constructor
+    doublyL<T>& operator=(const doublyL<T>& other); // assignment operator
+    void copy(const doublyL<T>& other); // copies the list
+    void destroy(); // destroys the objects
+    bool isEmpty(); // returns whether the list is empty
+    int getLength() const; // returns node count
+    bool getFound() { return found == true; } // returns true if node is found
+
+    void insertBack(T item); // inserts a item @ back of list
+    void insertFront(T item); // inserts a item @ front of list
+    void deleteItem(T item); // deletes a given item
+    node<T>* search(T item); // searches for a given item
+    void print() const; // outputs the list to the console
+
+    // iterators methods
+    iterator<T> begin() const { return iterator<T>(this->head); }
+    iterator<T> tend() const { return iterator<T>(this->tail); }
+    iterator<T> end() const { return iterator<T>(); }
+};
+
+template <class T> doublyL<T>::doublyL() = default;
+
+template <class T> void doublyL<T>::init() {
     head = nullptr;
     tail = nullptr;
     length = 0;
     found = false;
 }
 
-template <class T> dll<T>::~dll() { destroy(); }
+template <class T> doublyL<T>::~doublyL() { destroy(); }
 
-template <class T> dll<T>::dll(const dll<T>& other) {
+template <class T> doublyL<T>::doublyL(const doublyL<T> &other) {
     init();
     copy(other);
 }
 
-template <class T> dll<T>& dll<T>::operator=(const dll<T>& other) {
+template <class T> doublyL<T>& doublyL<T>::operator=(const doublyL<T> &other) {
     if (this == &other) {
         return *this;
     }
+    destroy();
     copy(other);
 
     return *this;
 } // end of operator=
 
-template <class T> void dll<T>::copy(const dll<T>& other) {
-    length = other.length;
-
+template <class T> void doublyL<T>::copy(const doublyL<T> &other) {
+    destroy();
     if (other.head == NULL) {
         head = nullptr;
         tail = nullptr;
@@ -41,7 +86,7 @@ template <class T> void dll<T>::copy(const dll<T>& other) {
     }
 } // end of copy()
 
-template <class T> void dll<T>::destroy() {
+template <class T> void doublyL<T>::destroy() {
     node<T>* p = head;
     while (p != nullptr) {
         node<T>* delptr = p;
@@ -49,10 +94,11 @@ template <class T> void dll<T>::destroy() {
         delete delptr;
     }
     head = tail = nullptr;
+    length = 0;
 } // end of destroy()
 
 // inserting back
-template <class T> void dll<T>::insertBack(T item) {
+template <class T> void doublyL<T>::insertBack(T item) {
     length++;
     node<T>* n = new node<T>();
     n->data = item;
@@ -71,7 +117,7 @@ template <class T> void dll<T>::insertBack(T item) {
 } // end of insertBack()
 
 // inserting front
-template <class T> void dll<T>::insertFront(T item) {
+template <class T> void doublyL<T>::insertFront(T item) {
     node<T>* n = new node<T>();
     length++;
     n->data = item;
@@ -92,17 +138,18 @@ template <class T> void dll<T>::insertFront(T item) {
     }
 } // end of insertFront()
 
-template <class T> bool dll<T>::isEmpty() { return head == NULL; }
+template <class T> bool doublyL<T>::isEmpty() { return head == NULL; }
 
-template <class T> int dll<T>::getLength() { return length; }
+template <class T> int doublyL<T>::getLength() const { return length; }
 
-template <class T> void dll<T>::print() {
-    if (head == NULL) {
+template <class T>
+void doublyL<T>::print() const {
+    if (!head) {
         std::cout << "\nThe list is empty\n";
     }
     else {
         node<T>* p = head;
-        while (p != NULL) {
+        while (p) {
             std::cout << p->data << " ";
             p = p->next;
         }
@@ -110,7 +157,7 @@ template <class T> void dll<T>::print() {
 } // end of print()
 
 template <class T>
-void dll<T>::deleteItem(T item) {
+void doublyL<T>::deleteItem(T item) {
     node<T>* itemSearch = search(item);
     if (itemSearch == nullptr)
         return;
@@ -134,7 +181,7 @@ void dll<T>::deleteItem(T item) {
 } // end of deleteItem();
 
 template <class T>
-node<T>* dll<T>::search(T item) {
+node<T>* doublyL<T>::search(T item) {
     found = false;
     node<T>* n = head;
     while (n != nullptr) {
@@ -147,3 +194,4 @@ node<T>* dll<T>::search(T item) {
     std::cerr << "Item is not in the list. \n";
     return nullptr;
 } // end of search()
+#endif // !DOUBLYL_H
