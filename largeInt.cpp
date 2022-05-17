@@ -2,6 +2,7 @@
 
 LargeInt::LargeInt() : LargeInt(0) {}
 
+// Constructor takes a string
 LargeInt::LargeInt(const std::string& str)
 {
     int index = 0;
@@ -17,6 +18,7 @@ LargeInt::LargeInt(const std::string& str)
     }
 }
 
+// // Constructor takes an int
 LargeInt::LargeInt(int i)
 {
     if (i < 0)
@@ -31,6 +33,9 @@ LargeInt::LargeInt(int i)
     }
 }
 
+//
+// COMPARISON OPERATORS
+//
 std::ostream& operator<<(std::ostream& os, const LargeInt& large_int)
 {
     if (!large_int.sign)
@@ -41,12 +46,6 @@ std::ostream& operator<<(std::ostream& os, const LargeInt& large_int)
     {
         os << *it;
     }
-
-    // for(auto digit : large_int.data)
-    // {
-    // 	os << digit;
-    // }
-
     return os;
 }
 
@@ -64,12 +63,6 @@ std::istream& operator>>(std::istream& is, LargeInt& large_int)
     {
         large_int.data.insertBack(temp[index] - '0');
     }
-
-    // for(auto c : temp)
-    // {
-    // 	large_int.data.insertBack(c - '0');
-    // }
-
     return is;
 }
 
@@ -143,6 +136,12 @@ bool LargeInt::operator>=(const LargeInt& other) const
     return !(*this < other);
 }
 
+// end of comparison operators
+
+//
+// OPERATIONS
+//
+
 LargeInt LargeInt::operator-() const
 {
     LargeInt result = *this;
@@ -171,14 +170,18 @@ LargeInt LargeInt::operator+(const LargeInt& other) const
     {
         return other + *this;
     }
-    int carry = 0;
+    //  1
+    // 3 8
+    // 4 6
+    // 8 2
+    int carry = 0;      // holds the carry when peforming addition
     LargeInt result;
     auto it1 = data.tend();
     auto it2 = other.data.tend();
     for (; it1 && it2; --it1, --it2)
     {
         int temp = *it1 + *it2 + carry;
-        result.data.insertFront(temp % 10);
+        result.data.insertFront(temp % 10); 
         carry = temp / 10;
     }
     for (; it1; --it1)
@@ -187,7 +190,7 @@ LargeInt LargeInt::operator+(const LargeInt& other) const
         result.data.insertFront(temp % 10);
         carry = temp / 10;
     }
-    if (carry)
+    if (carry) // if there's a carry left put it in the front
     {
         result.data.insertFront(carry);
     }
@@ -215,6 +218,7 @@ LargeInt LargeInt::operator-(const LargeInt& other) const
     {
         return -(other - *this);
     }
+    // similarly to positive
     int carry = 0;
     LargeInt result;
     auto it1 = data.tend();
@@ -224,6 +228,9 @@ LargeInt LargeInt::operator-(const LargeInt& other) const
         int temp = *it1 - *it2 - carry;
         if (temp < 0)
         {
+            // 28 we add 10 to 8, gives a carry of 1
+            // 19 then, add 1 + 1 and subtract 2 = 0
+            // 0 9
             carry = 1;
             result.data.insertFront(temp + 10);
         }
@@ -278,6 +285,7 @@ LargeInt LargeInt::operator*(const LargeInt& other) const
     return result;
 }
 
+// review later, its not dividing properly
 LargeInt LargeInt::operator/(const LargeInt& other) const
 {
     LargeInt result;
@@ -308,6 +316,7 @@ LargeInt LargeInt::operator%(const LargeInt& other) const
     result.sign = (sign == other.sign);
     return result;
 }
+// end of operations
 
 void LargeInt::strip_zeroes()
 {

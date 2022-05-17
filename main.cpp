@@ -6,14 +6,12 @@
     Description:  program handles large integers (positive and negative)
 */
 
-#include <iostream>
-#include <string>
 #include "LargeInt.h";
 
 int main()
 {
-    /*LargeInt li1(-10);
-    LargeInt li2("-3");
+    /*LargeInt li1(200);
+    LargeInt li2("5");
     std::cout << (li1 / li2) << '\n';*/
     
     bool loop = true;
@@ -30,7 +28,6 @@ int main()
         std::cout << "\n    Multiplicaton: " << (li1 * li2);
         std::cout << "\n    Division: " << (li1 / li2);
         std::cout << "\n    Modulus: " << (li1 % li2) << "\n";
-
 
         std::cout << "\n\n   COMPARISONS";
         std::cout << "\n  ----------------\n";
@@ -52,10 +49,4 @@ int main()
             loop = false;
         }
     } while (loop);
-    
- 
-
-    
-
-    
 }
